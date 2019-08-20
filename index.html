@@ -9,6 +9,22 @@
             padding: 0;
             margin: 0;
         }
+        .box{
+            font-size: 0px;
+            text-align: center;
+        }
+        .img{
+            display: inline-block;
+            width: 400px;
+            height: auto;
+            opacity: 0;
+            transition: 1s
+        }
+        .bg{
+            display:inline-block;
+            margin: 20px;
+            background: rgb(201, 201, 201);
+        }
     </style>
 </head>
 
@@ -16,13 +32,39 @@
     <div class="box"></div>
 </body>
 
-<script> 
-    var box=document.querySelector(".box");
-    var ihtml=""
-    for(var i=1;i<=10;i++){
-        ihtml+='<div><img class="img" src="img/'+i+'.jpg"/></div>'
+<script>
+    window.onload = function () {
+        var box = document.querySelector(".box");
+        var ihtml = ""
+        for (var i = 1; i <= 100; i++) {
+            ihtml += '<div class="bg"><img class="img" src="img/img.jpg" data-srcc="img/' + i + '.jpg"/></div>'
+        }
+        box.innerHTML = ihtml;
+        var imgs = document.querySelectorAll(".img");
+
+        loadimg(imgs);
+        window.onscroll=function(){
+            loadimg(imgs);
+        }
+        function loadimg(imgs){
+            for(var b=0;b<imgs.length;b++){
+                if(imgs[b].getBoundingClientRect().top<document.documentElement.clientHeight && !imgs[b].isLoad){
+                    imgs[b].isLoad=true;
+                    if(imgs[b].dataset){
+                        a(imgs[b],imgs[b].dataset.srcc)
+                    }
+                    else{
+                        a(imgs[b],imgs[b].getAttribute("data-srcc"));
+                    }
+                    imgs[b].style.opacity="1"
+                }
+            }
+        }
+        function a(obj,url){
+            obj.src=url;
+        }
     }
-    box.innerHTML=ihtml;
+
 </script>
 
 </html>
